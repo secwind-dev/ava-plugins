@@ -1,6 +1,6 @@
 ---
 name: ava-check
-description: 'ตรวจสอบและอัปเดต plugin structure ให้ตรงกับ version ปัจจุบัน — rename SYSTEM.md → SOUL.md, อัปเดต references, เปลี่ยนชื่อ character. Usage: /ava-check'
+description: 'ตรวจสอบและอัปเดต plugin structure ให้ตรงกับ version ปัจจุบัน — rename SYSTEM.md → SOUL.md, อัปเดต references, เปลี่ยนชื่อ character, ย้ายกฎ Ava จาก CLAUDE.md → .claude/ava/AVA.md. Usage: /ava-check'
 disable-model-invocation: true
 ---
 
@@ -10,7 +10,7 @@ disable-model-invocation: true
 
 ## ขั้นที่ 1 — ตรวจ Migration Issues
 
-รัน Bash commands เพื่อตรวจ 4 จุด:
+รัน Bash commands เพื่อตรวจ 5 จุด:
 
 ```bash
 # M1: ตรวจว่ายังมี SYSTEM.md และยังไม่มี SOUL.md
@@ -19,8 +19,8 @@ test -f .claude/ava/SOUL.md && echo "SOUL_EXISTS" || echo "SOUL_MISSING"
 ```
 
 ```bash
-# M2: ตรวจ CLAUDE.md ยังมี reference ถึง SYSTEM.md ไหม
-grep -q "SYSTEM\.md" CLAUDE.md 2>/dev/null && echo "M2_FOUND" || echo "M2_OK"
+# M2: ตรวจ CLAUDE.md / AVA.md ยังมี reference ถึง SYSTEM.md ไหม
+grep -qs "SYSTEM\.md" CLAUDE.md .claude/ava/AVA.md && echo "M2_FOUND" || echo "M2_OK"
 ```
 
 ```bash
@@ -31,6 +31,13 @@ grep -q "SYSTEM\.md" .claude/hooks/notify-done.sh 2>/dev/null && echo "M3_FOUND"
 ```bash
 # M4: ตรวจชื่อ "อิงโกะ" ยังเหลืออยู่ใน .claude/ava/ ไหม
 grep -rq "อิงโกะ" .claude/ava/ 2>/dev/null && echo "M4_FOUND" || echo "M4_OK"
+```
+
+```bash
+# M5: layout เก่า — กฎของ Ava อยู่ใน CLAUDE.md ที่ root (ยังไม่มี .claude/ava/AVA.md)
+if [ ! -f .claude/ava/AVA.md ] && grep -qF '.claude/ava/RULE.md' CLAUDE.md 2>/dev/null; then echo "M5_FOUND"
+elif [ -f .claude/ava/AVA.md ] && ! grep -qxF '@.claude/ava/AVA.md' CLAUDE.md 2>/dev/null; then echo "M5_NO_IMPORT"
+else echo "M5_OK"; fi
 ```
 
 บันทึกผลแต่ละข้อไว้ก่อน
@@ -57,6 +64,7 @@ grep -rq "อิงโกะ" .claude/ava/ 2>/dev/null && echo "M4_FOUND" || ech
     - ⚠️ M2: `CLAUDE.md` ยังมี reference ถึง SYSTEM.md
     - ⚠️ M3: `notify-done.sh` ยังมี reference ถึง SYSTEM.md
     - ⚠️ M4: พบชื่อ "อิงโกะ" ใน `.claude/ava/`
+    - ⚠️ M5: กฎของ Ava ยังอยู่ใน `CLAUDE.md` (ต้องย้ายไป `.claude/ava/AVA.md` + import) / หรือ CLAUDE.md ยังไม่มีบรรทัด import
 
     Fix ทั้งหมดเลยไหม?
     ```
@@ -95,6 +103,22 @@ sed -i '' 's/SYSTEM\.md/SOUL.md/g' .claude/hooks/notify-done.sh
 grep -rl "อิงโกะ" .claude/ava/ 2>/dev/null | xargs sed -i '' 's/อิงโกะ (Inko)/เอวา (Ava)/g'
 ```
 
+**Fix M5** (ถ้า M5_FOUND) — ย้าย CLAUDE.md ทั้งไฟล์ไปเป็น AVA.md (ไม่มีข้อมูลหาย) แล้วสร้าง CLAUDE.md ใหม่ที่มีแค่ import:
+
+```bash
+mv CLAUDE.md .claude/ava/AVA.md
+sed -i '' '1s/^# CLAUDE\.md$/# AVA.md/' .claude/ava/AVA.md
+printf '# CLAUDE.md\n\n<!-- ava: โหลดกฎของ Ava — ลบบรรทัดด้านล่างเพื่อปิด Ava -->\n@.claude/ava/AVA.md\n' > CLAUDE.md
+```
+
+แจ้ง user: ถ้า CLAUDE.md เดิมมีกฎของโปรเจกต์ที่ไม่ใช่ของ Ava ปนอยู่ ให้ย้ายส่วนนั้นกลับไปไว้ใน CLAUDE.md เอง
+
+**Fix M5** (ถ้า M5_NO_IMPORT) — append import:
+
+```bash
+printf '\n<!-- ava: โหลดกฎของ Ava — ลบบรรทัดด้านล่างเพื่อปิด Ava -->\n@.claude/ava/AVA.md\n' >> CLAUDE.md
+```
+
 ---
 
 ## ขั้นที่ 4 — แสดงสรุปผล
@@ -110,6 +134,7 @@ grep -rl "อิงโกะ" .claude/ava/ 2>/dev/null | xargs sed -i '' 's/อ�
 | CLAUDE.md reference      | ✅/⚠️  | อัปเดตแล้ว / ข้ามไป / ไม่มีปัญหา  |
 | notify-done.sh reference | ✅/⚠️  | อัปเดตแล้ว / ข้ามไป / ไม่มีปัญหา  |
 | ชื่อ character            | ✅/⚠️  | เอวาแล้ว / ข้ามไป / ไม่มีปัญหา   |
+| CLAUDE.md → AVA.md       | ✅/⚠️  | ย้ายแล้ว / เพิ่ม import / ข้ามไป / ไม่มีปัญหา |
 ```
 
 ถ้ามี ⚠️ ค้างอยู่ → แนะนำให้รัน `/ava-check` อีกครั้งหลังแก้ไขเอง

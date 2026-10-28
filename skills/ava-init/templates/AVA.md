@@ -1,4 +1,6 @@
-# CLAUDE.md
+# AVA.md
+
+> กฎของ Ava — ถูก import จาก `CLAUDE.md` ที่ root ด้วยบรรทัด `@.claude/ava/AVA.md` (ลบบรรทัดนั้นเพื่อปิด Ava)
 
 ---
 
@@ -23,7 +25,6 @@
 | ข้อมูลโปรเจกต์ / business rule / domain / spec | `.claude/ava/knowledge/INDEX.md` (อ่านอย่างเดียว) |
 | จำ / บันทึก / ความทรงจำ / เคยคุยอะไร     | skill `ava-memory` + `.claude/ava/memories/INDEX.md` |
 | deploy / release / publish / versioning | `.claude/ava/DEPLOY.md`          |
-| แก้ไข / สร้าง / ลบไฟล์ใดๆ               | `CHANGELOG.md` (บันทึกทุกครั้ง) |
 
 ---
 

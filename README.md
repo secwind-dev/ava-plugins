@@ -28,7 +28,7 @@
 
 | Skill | คำสั่ง | คำอธิบาย |
 |-------|--------|----------|
-| **ava-init** | `/ava-init` | One-time setup สร้างไฟล์ทั้งหมด (CLAUDE.md, RULE.md, SOUL.md, knowledge/INDEX.md, memories/INDEX.md ฯลฯ) พร้อม default hooks อัตโนมัติ |
+| **ava-init** | `/ava-init` | One-time setup สร้างไฟล์ทั้งหมด (`.claude/ava/AVA.md` + import ใน CLAUDE.md โดยไม่เขียนทับ, RULE.md, SOUL.md, knowledge/INDEX.md, memories/INDEX.md ฯลฯ) พร้อม default hooks อัตโนมัติ |
 | **ava-review** | `/ava-review [target]` | Code review จาก git diff พร้อมวิเคราะห์ security, คะแนน quality, และแนะนำ best practices |
 | **ava-validate** | `/ava-validate [task]` | ตรวจงานสำคัญตามระดับ L1/L2/L3 แก้ checklist ได้ก่อนตรวจ L3 มีผู้ตรวจอิสระ |
 | **ava-check** | `/ava-check` | ตรวจสอบ environment: runtime, git config, package manager, และ .env security |
@@ -48,13 +48,12 @@
 
 ## 🔄 สำหรับผู้พัฒนา — deploy version ใหม่
 
-เมื่อ deploy version ใหม่ ให้อัปเดต version ใน 3 ไฟล์นี้ให้ตรงกัน:
+เมื่อ deploy version ใหม่ ให้อัปเดต version ในไฟล์เหล่านี้ให้ตรงกัน:
 
 | ไฟล์ | field |
 |------|-------|
 | `.claude-plugin/plugin.json` | `"version"` |
 | `.claude-plugin/marketplace.json` | `"metadata.version"` และ `"plugins[0].version"` |
-| `DOCS.md` | `**Version:**` |
 | `CHANGELOG.md` | entry header เช่น `## [YYYY-MM-DD] — vX.X.X` |
 
 จากนั้น commit และ push — marketplace จะดึง version ใหม่จาก GitHub โดยอัตโนมัติ

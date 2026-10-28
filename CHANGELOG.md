@@ -1,13 +1,11 @@
 # Changelog
 
-## [Unreleased]
-
-### Added
-- `.claude/ava/knowledge/` + `INDEX.md` — ข้อมูลโปรเจกต์ที่ owner เขียนเอง, Ava อ่านอย่างเดียว, ยึดเป็นหลักเมื่อขัดกับ memories (ava-init สร้างให้, Startup โหลด INDEX, routing ใน CLAUDE.md)
-- skill `ava-memory` — บันทึก / ค้นหา / ลบ ความทรงจำใน `.claude/ava/memories/` (sessions / decisions / preferences / facts) พร้อม `INDEX.md` เป็นสารบัญ, Ava เรียกใช้เองได้
-- `ava-init`: สร้าง `.claude/ava/memories/INDEX.md` + โฟลเดอร์ย่อย, Startup Sequence โหลด INDEX.md, SOUL.md เพิ่มกฎเสนอบันทึกความทรงจำ
+## [2026-10-28] — v2.0.0
 
 ### Changed
+- กฎของ Ava ย้ายจาก `CLAUDE.md` (root) → `.claude/ava/AVA.md` แล้ว import ด้วย `@.claude/ava/AVA.md` — ava-init ไม่เขียนทับ CLAUDE.md เดิมอีก (สร้าง / append / ข้าม แบบ idempotent) เพื่อไม่ชนกับโปรเจกต์หรือ plugin อื่น
+- template `CLAUDE.md` → `AVA.md`, RULE.md / ava-memory อ้างถึง AVA.md
+- ava-review อ่าน `.claude/ava/AVA.md` ด้วย, ava-check เพิ่ม M5 ย้าย layout เก่าให้อัตโนมัติ
 - `ava-init`: ลบขั้นถามข้อมูลเริ่มต้น (AskUserQuestion) และ argument ชื่อโปรเจกต์ — `/ava-init` ไม่ต้องรับ argument แล้ว
 - `ava-init`: เลิกสร้าง `.claude/ava/PROJECT.md` (ลบ template + routing row ใน templates/CLAUDE.md + บรรทัดใน templates/CHANGELOG.md)
 - `ava-init`: SOUL.md คง placeholder `[บทบาทที่ user กำหนด]` ไว้ให้ user แก้เอง (เพิ่มใน Next Steps)
@@ -16,7 +14,16 @@
 - `ava-init` templates/CLAUDE.md: ลบแถว routing ไป `PACKAGES.md` (ไม่มี template)
 - CLAUDE.md (root): ลบแถว routing ไป `.claude/ava/PROJECT.md`
 
+- ava-init เลิกสร้าง activity log `CHANGELOG.md` + ลบกฎ "แก้ไฟล์ใดๆ → บันทึก CHANGELOG ทุกครั้ง" ใน AVA.md — ซ้ำกับ git log และ `memories/sessions/` (release changelog ของโปรเจกต์ยังจัดการผ่าน DEPLOY.md / changesets ตามเดิม)
+
+### Added
+- `.claude/ava/knowledge/` + `INDEX.md` — ข้อมูลโปรเจกต์ที่ owner เขียนเอง, Ava อ่านอย่างเดียว, ยึดเป็นหลักเมื่อขัดกับ memories (ava-init สร้างให้, Startup โหลด INDEX, routing ใน CLAUDE.md)
+- skill `ava-memory` — บันทึก / ค้นหา / ลบ ความทรงจำใน `.claude/ava/memories/` (sessions / decisions / preferences / facts) พร้อม `INDEX.md` เป็นสารบัญ, Ava เรียกใช้เองได้
+- `ava-init`: สร้าง `.claude/ava/memories/INDEX.md` + โฟลเดอร์ย่อย, Startup Sequence โหลด INDEX.md, SOUL.md เพิ่มกฎเสนอบันทึกความทรงจำ
+
 ### Removed
+- `DOCS.md` ทั้งไฟล์ — ใช้ README.md เป็นเอกสารหลักแทน
+- README.md: แถว `DOCS.md` `**Version:**` ในตาราง deploy (DOCS ไม่มี field นี้)
 - skill `ava-awaken` + โฟลเดอร์ `.claude/ava/awaken/` (ava-init, Startup Sequence, README, DOCS)
 - `MEMORY.md` (template + routing) — แทนด้วย `.claude/ava/memories/`
 - skill `ava-hook`, `ava-explore`, `ava-docs`, `ava-commit`, `ava-deploy`, `ava-adc`, `ava-on-session`, `ava-refactor-code` พร้อม section ใน README.md / DOCS.md

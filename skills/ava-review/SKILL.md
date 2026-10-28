@@ -26,8 +26,8 @@ git diff --stat HEAD   # หรือ git diff --stat <target> ถ้ามี a
 # 2b. ดึง diff เต็ม
 git diff HEAD          # หรือ git diff <target> ถ้ามี argument
 
-# 2c. ดึง CLAUDE.md (ถ้ามี) เพื่อรู้ convention ของโปรเจกต์
-cat CLAUDE.md 2>/dev/null || echo "NO_CLAUDE_MD"
+# 2c. ดึง CLAUDE.md + ไฟล์กฎของ Ava (ถ้ามี) เพื่อรู้ convention ของโปรเจกต์
+cat CLAUDE.md .claude/CLAUDE.md .claude/ava/AVA.md 2>/dev/null || echo "NO_CLAUDE_MD"
 
 # 2d. ดึง git log 5 commits ล่าสุดของไฟล์ที่เปลี่ยน (เพื่อดู context ประวัติ)
 git diff --name-only HEAD | head -20 | xargs -I{} git log --oneline -3 -- {} 2>/dev/null

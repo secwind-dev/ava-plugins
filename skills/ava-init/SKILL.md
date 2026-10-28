@@ -1,6 +1,6 @@
 ---
 name: ava-init
-description: 'One-time project setup wizard. Usage: /ava-init. Creates CLAUDE.md, RULE.md, SOUL.md, knowledge/INDEX.md, memories/INDEX.md, CHANGELOG.md, and DEPLOY.md for a new project.'
+description: 'One-time project setup wizard. Usage: /ava-init. Creates .claude/ava/AVA.md (imported from CLAUDE.md), RULE.md, SOUL.md, knowledge/INDEX.md, memories/INDEX.md, and DEPLOY.md for a new project.'
 disable-model-invocation: true
 ---
 
@@ -10,23 +10,38 @@ disable-model-invocation: true
 
 ## ขั้นที่ 1 — สร้างไฟล์ทั้งหมด
 
-สร้างไฟล์ต่อไปนี้ตามลำดับโดยใช้ tool `Read` อ่าน template แล้วใช้ tool `Write` สร้างที่ปลายทาง แทนที่ `[วันที่ปัจจุบัน]` ด้วยวันที่จริงในรูปแบบ YYYY-MM-DD:
+สร้างไฟล์ต่อไปนี้ตามลำดับโดยใช้ tool `Read` อ่าน template แล้วใช้ tool `Write` สร้างที่ปลายทาง:
 
 > **Template path:**
 >
 > Template ทั้งหมดอยู่ที่ `<Base directory for this skill>/templates/`
 > โดย `<Base directory for this skill>` คือ path ที่ระบุใน header ของ skill นี้
-> ตัวอย่าง: ถ้า base dir = `/path/to/skills/ava-init` → template อยู่ที่ `/path/to/skills/ava-init/templates/CLAUDE.md`
+> ตัวอย่าง: ถ้า base dir = `/path/to/skills/ava-init` → template อยู่ที่ `/path/to/skills/ava-init/templates/AVA.md`
 
 > **โครงสร้าง path ปลายทาง:**
 >
-> - `CLAUDE.md` และ `CHANGELOG.md` → สร้างที่ root ของโปรเจกต์
+> - `CLAUDE.md` (root) → **ห้ามเขียนทับ** — แค่เพิ่มบรรทัด import (ดูหัวข้อ AVA.md)
 > - ไฟล์ที่เหลือทั้งหมด → สร้างใน `.claude/ava/`
 
-### CLAUDE.md
+### .claude/ava/AVA.md + import ใน CLAUDE.md
 
-อ่านจาก template: `<base_dir>/templates/CLAUDE.md`
-ใช้ Write tool สร้างที่ `CLAUDE.md` (root) — ไม่มี placeholder ในไฟล์นี้
+อ่านจาก template: `<base_dir>/templates/AVA.md`
+ใช้ Write tool สร้างที่ `.claude/ava/AVA.md` — ไม่มี placeholder ในไฟล์นี้
+
+จากนั้นเพิ่มบรรทัด import ใน `CLAUDE.md` ที่ root เพื่อให้ Claude Code โหลด AVA.md — **ห้ามเขียนทับ CLAUDE.md เดิม** เพราะอาจมีกฎของโปรเจกต์หรือ plugin อื่นอยู่:
+
+```bash
+# เพิ่ม import แบบ idempotent: ไม่มีไฟล์ → สร้าง, มีแต่ยังไม่มี import → append, มีแล้ว → ข้าม
+IMPORT='@.claude/ava/AVA.md'
+NOTE='<!-- ava: โหลดกฎของ Ava — ลบบรรทัดด้านล่างเพื่อปิด Ava -->'
+if [ ! -f CLAUDE.md ]; then
+  printf '# CLAUDE.md\n\n%s\n%s\n' "$NOTE" "$IMPORT" > CLAUDE.md && echo "CLAUDE_MD_CREATED"
+elif grep -qxF "$IMPORT" CLAUDE.md; then
+  echo "CLAUDE_MD_SKIP"
+else
+  printf '\n%s\n%s\n' "$NOTE" "$IMPORT" >> CLAUDE.md && echo "CLAUDE_MD_APPENDED"
+fi
+```
 
 ### .claude/ava/RULE.md
 
@@ -48,12 +63,6 @@ disable-model-invocation: true
 
 อ่านจาก template: `<base_dir>/templates/memories/INDEX.md`
 ใช้ Write tool สร้างที่ `.claude/ava/memories/INDEX.md` — ไม่มี placeholder ในไฟล์นี้ (สารบัญความทรงจำ จัดการผ่าน `/ava-memory`)
-
-### CHANGELOG.md
-
-อ่านจาก template: `<base_dir>/templates/CHANGELOG.md`
-ใช้ Write tool สร้างที่ `CHANGELOG.md` (root)
-แทนที่ `[วันที่ปัจจุบัน]` ด้วยวันที่จริง
 
 ### .claude/ava/DEPLOY.md
 
@@ -109,11 +118,11 @@ grep -qxF '.claude/hooks/last-action.tmp' .gitignore 2>/dev/null || echo '.claud
 หลังสร้างไฟล์ครบทั้งหมดแล้ว แจ้ง user ดังนี้:
 
 ```
-✅ Setup เสร็จแล้ว! สร้างไฟล์ 9 ไฟล์ + 2 โฟลเดอร์ + ตั้งค่า 1 config
+✅ Setup เสร็จแล้ว! สร้างไฟล์ 8 ไฟล์ + import 1 บรรทัดใน CLAUDE.md + 2 โฟลเดอร์ + ตั้งค่า 1 config
 
 📁 ไฟล์ที่สร้าง:
-✅ CLAUDE.md
-✅ CHANGELOG.md
+✅ CLAUDE.md — เพิ่มบรรทัด `@.claude/ava/AVA.md` (สร้างใหม่ / append / มีอยู่แล้ว)
+✅ .claude/ava/AVA.md
 ✅ .claude/ava/RULE.md
 ✅ .claude/ava/SOUL.md
 ✅ .claude/ava/knowledge/INDEX.md

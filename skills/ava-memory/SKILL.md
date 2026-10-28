@@ -14,7 +14,7 @@ argument ที่รับมา: `$ARGUMENTS`
 
 ```
 .claude/ava/memories/
-├── INDEX.md        ← สารบัญ 1 แถวต่อ 1 ไฟล์ (โหลดทุก session ตาม CLAUDE.md)
+├── INDEX.md        ← สารบัญ 1 แถวต่อ 1 ไฟล์ (โหลดทุก session ตาม .claude/ava/AVA.md)
 ├── sessions/       ← สรุปบทสนทนา: YYYY-MM-DD-<slug>.md
 ├── decisions/      ← การตัดสินใจ + เหตุผล: <slug>.md
 ├── preferences/    ← ความชอบ / วิธีทำงานของ owner และทีม: <slug>.md
