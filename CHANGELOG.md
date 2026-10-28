@@ -1,5 +1,13 @@
 # Changelog
 
+## [2026-10-28] — v2.2.0 🚀 Deploy
+
+### 🚀 Deploy
+
+- pushed to `main` (6323c3f..fa42379)
+
+---
+
 ## [2026-10-28] — v2.2.0
 
 ### Changed
