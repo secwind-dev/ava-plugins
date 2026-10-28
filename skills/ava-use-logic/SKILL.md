@@ -1,6 +1,6 @@
 ---
 name: ava-use-logic
-description: 'เปิด / ปิด / ดูรายการ logic ของ Ava จากคลัง .claude/ava/logics/ — เปิดใช้ได้เฉพาะ logic ที่ owner review แล้ว, ตรวจ dependency และจุดที่ขัดกับ Ava / logic อื่นแล้วถาม owner ก่อนเพิ่มบรรทัด import ใน .claude/ava/AVA.md. Usage: /ava-use-logic <name> | remove <name> | list'
+description: 'เปิด / ปิด / ดูรายการ logic ของ Ava จากคลัง .claude/ava/logics/ — เปิดใช้ได้เฉพาะ logic ที่ owner review แล้ว, ตรวจ dependency, แสดงจุดที่ logic จะเปลี่ยนพฤติกรรมของ Ava, ถาม owner เฉพาะเมื่อขัดกับ logic อื่น ก่อนเพิ่มบรรทัด import ใน .claude/ava/AVA.md. Usage: /ava-use-logic <name> | remove <name> | list'
 argument-hint: '<ชื่อ logic> | remove <ชื่อ logic> | list'
 disable-model-invocation: true
 ---
@@ -17,7 +17,7 @@ disable-model-invocation: true
 ```
 
 - 1 บรรทัด = 1 logic · มีบรรทัด = เปิดใช้ · ไม่มี = ปิด
-- ขัดกัน: `RULE.md` ชนะเสมอ → **บรรทัดบนชนะบรรทัดล่าง** (owner สลับลำดับบรรทัดเองได้)
+- ขัดกัน: `RULE.md` ชนะเสมอ → คอลัมน์ "owner ตัดสิน" ของ LOGIC.md → logic ที่เปิดใช้ชนะกฎใน AVA.md / SOUL.md · logic ชนกันเอง = ถาม owner แล้วบันทึก
 - path ใน `@import` เป็น relative กับไฟล์ AVA.md (`.claude/ava/`) → ใช้ `@logics/<name>/LOGIC.md` **ห้าม** `@.claude/ava/logics/...`
 - ห้ามปิดด้วย `<!-- -->` — ลบบรรทัดออกแทน
 
@@ -47,9 +47,9 @@ argument ที่รับมา: `$ARGUMENTS`
 
 ### A2 — Owner review (บังคับ)
 
-ใช้ `AskUserQuestion` ถาม owner โดยแสดง: ชื่อ, source + sha, requires, สรุปลำดับงาน, กฎ MUST / NEVER
+ใช้ `AskUserQuestion` ถาม owner โดยแสดง: ชื่อ, source + sha, requires, สรุปลำดับงาน, กฎ MUST / NEVER และตาราง "ชนกับ Ava" (เรื่อง / Ava / logic / owner ตัดสิน — ช่องว่างแสดงเป็น "ใช้แบบ logic") เพื่อให้ owner เห็นว่าเปิดแล้วอะไรจะเปลี่ยน
 - `✅ review แล้ว เปิดใช้` → ไปต่อ
-- `❌ ยังไม่เปิด` → หยุด
+- `❌ ยังไม่เปิด` → หยุด · ถ้าอยากปรับข้อไหน ให้แก้คอลัมน์ "owner ตัดสิน" ใน LOGIC.md แล้วรันใหม่
 
 ห้ามข้ามขั้นนี้ แม้ `reviewed_by_owner` จะมีค่าแล้ว — ไฟล์อาจถูกแก้หลัง review
 
@@ -61,20 +61,21 @@ argument ที่รับมา: `$ARGUMENTS`
 
 ขาด → แจ้งวิธีติดตั้ง (จาก section "ถ้าไม่ได้ติดตั้ง" ใน LOGIC.md) แล้ว **หยุด** — logic ที่ไม่มี skill / tool รองรับจะทำให้ Ava จำลองการทำงานเอง ซึ่งผิด
 
-### A4 — ตรวจจุดที่ขัดกัน (ถาม owner ทีละเรื่อง)
+### A4 — ตรวจจุดที่ขัดกับ logic อื่น
 
-รวบรวมเรื่องที่ **คอลัมน์ "owner ตัดสิน" ยังว่าง** จาก:
-1. ตาราง "ชนกับ Ava" ใน LOGIC.md
-2. เทียบกฎใน LOGIC.md กับ `AVA.md`, `SOUL.md`, `RULE.md` — เจอเรื่องใหม่ → เพิ่มแถวในตาราง "ชนกับ Ava"
-3. เทียบกับ LOGIC.md ของทุก logic ที่มีบรรทัด import อยู่แล้ว — เจอเรื่องที่ขัด → เพิ่มแถวในตาราง "เมื่อใช้คู่กับ logic อื่น" ของ logic ที่กำลังเปิด
+<!-- แก้ไข: logic ที่เปิดใช้ชนะกฎของ Ava อัตโนมัติ — ถาม owner เฉพาะเมื่อ logic ชนกันเอง -->
 
-แล้วใช้ `AskUserQuestion` ถามทีละเรื่อง (สูงสุด 4 เรื่องต่อครั้ง) — option: `ใช้แบบ Ava` (หรือ `ใช้แบบ <logic อื่น>`), `ใช้แบบ <name>`, และข้อเสนอในคอลัมน์ "เสนอให้" ถ้ามี
-- ขัดกับ `RULE.md` → **ไม่ถาม** RULE.md ชนะเสมอ แค่แจ้ง owner และเขียน `RULE.md ชนะ` ในคอลัมน์
-- เขียนคำตอบลงคอลัมน์ "owner ตัดสิน" ของ LOGIC.md — การตัดสินใจติดไปกับ logic เปิดใหม่ครั้งหน้าไม่ต้องถามซ้ำ
+1. เทียบกฎใน LOGIC.md กับ `AVA.md`, `SOUL.md`, `RULE.md` — เจอเรื่องที่ชนกับ Ava ใหม่ → เพิ่มแถวในตาราง "ชนกับ Ava" โดยปล่อยคอลัมน์ "owner ตัดสิน" ว่าง (= ใช้แบบ logic) **ไม่ต้องถาม**
+    - ขัดกับ `RULE.md` → เขียน `RULE.md ชนะ` ในคอลัมน์ แล้วแจ้ง owner (RULE.md ชนะเสมอ)
+2. เทียบกับ LOGIC.md ของทุก logic ที่มีบรรทัด import อยู่แล้ว — รวบรวมเรื่องที่ขัดกันและยังไม่มีบันทึกในตาราง "เมื่อใช้คู่กับ logic อื่น"
+
+แล้วใช้ `AskUserQuestion` ถามเรื่องในข้อ 2 ทีละเรื่อง (สูงสุด 4 เรื่องต่อครั้ง) — option: `ใช้แบบ <logic ที่เปิดอยู่>`, `ใช้แบบ <name>`, และข้อเสนอถ้ามี
+- เขียนคำตอบลงตาราง "เมื่อใช้คู่กับ logic อื่น" **ของทั้งสอง logic** — การตัดสินใจติดไปกับ logic เปิดใหม่ครั้งหน้าไม่ต้องถามซ้ำ
+- ไม่มีเรื่องขัดกับ logic อื่น → ข้ามไป A5
 
 ### A5 — เพิ่มบรรทัด import ใน AVA.md
 
-เพิ่มเป็น **บรรทัดล่างสุด** ของ section (ลำดับความสำคัญต่ำสุด) — แจ้ง owner ว่าสลับลำดับบรรทัดได้ถ้าต้องการให้ชนะ logic อื่น
+เพิ่มเป็น **บรรทัดล่างสุด** ของ section
 
 รัน script ของ skill นี้ (`<Base directory for this skill>` คือ path ใน header ของ skill):
 
@@ -95,8 +96,8 @@ import มีผลตอนเริ่ม session ใหม่ — ใน sess
 
 ```
 🧩 เปิดใช้ logic "<name>" แล้ว
-📄 เพิ่ม @logics/<name>/LOGIC.md ใน .claude/ava/AVA.md (ลำดับที่ <n>)
-⚖️ owner ตัดสิน: <จำนวน> เรื่อง (บันทึกใน LOGIC.md)
+📄 เพิ่ม @logics/<name>/LOGIC.md ใน .claude/ava/AVA.md
+⚖️ เปลี่ยนพฤติกรรม Ava: <จำนวน> เรื่อง · ชนกับ logic อื่น: <จำนวน> เรื่อง (บันทึกใน LOGIC.md)
 ✨ มีผลแล้วใน session นี้ และโหลดอัตโนมัติทุก session ถัดไป
 ```
 
