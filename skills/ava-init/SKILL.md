@@ -125,7 +125,6 @@ grep -qxF '.claude/hooks/last-action.tmp' .gitignore 2>/dev/null || echo '.claud
 1. แก้ `[บทบาทที่ user กำหนด]` ใน `.claude/ava/SOUL.md` ให้เป็นบทบาทของ Claude ในโปรเจกต์นี้
 2. package recommend สำหรับ update version package.json รัน `npm install -D @changesets/cli` แล้วรัน `npx changeset init`
 3. รัน skill /ava-check เพื่อตรวจสอบว่าไฟล์ทั้งหมดถูกโหลดและไม่มีปัญหา
-4. พิมพ์ `ava-status` เพื่อตรวจสอบว่าทุกอย่างพร้อม
 
 พร้อมเริ่มงานแล้ว! 🚀
 ```

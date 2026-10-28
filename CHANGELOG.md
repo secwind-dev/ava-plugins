@@ -14,6 +14,7 @@
 ### Removed
 - skill `ava-hook`, `ava-explore`, `ava-docs`, `ava-commit`, `ava-deploy`, `ava-adc`, `ava-on-session`, `ava-refactor-code` พร้อม section ใน README.md / DOCS.md
 - `ava-init`: เลิกสร้างโฟลเดอร์ `.claude/ava/session/` (ใช้กับ ava-on-session เท่านั้น)
+- `ava-init`: ลบ Next Step ที่ให้พิมพ์ `ava-status` (ไม่มี skill นี้)
 
 ## [1.0.0] - 2026-10-28
 
