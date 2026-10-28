@@ -34,7 +34,7 @@
 | **ava-check** | `/ava-check` | ตรวจสอบ environment: runtime, git config, package manager, และ .env security |
 | **ava-doctor** | `/ava-doctor` | ตรวจสอบ version เทียบกับ marketplace บน GitHub แจ้งเมื่อมี version ใหม่ให้อัปเดต |
 | **ava-connector** | `/ava-connector <repo-url>` | วิเคราะห์ repo ภายนอก (plugin / MCP / workflow) แล้วร่าง logic ให้ Ava ใน `.claude/ava/logics/<name>/LOGIC.md` (draft รอ owner review) |
-| **ava-use-logic** | `/ava-use-logic <name>` | เปิด / ปิด / ดูรายการ logic — owner review + ตรวจ dependency + ถามเมื่อขัดกัน แล้วเพิ่มบรรทัด `@logics/<name>/LOGIC.md` ใน AVA.md (เก็บคลังได้หลายตัว เปิดเฉพาะที่เลือก) |
+| **ava-use-logic** | `/ava-use-logic <name>` | เปิด / ปิด / ดูรายการ logic — owner review + ตรวจ dependency + logic ชนะกฎ Ava อัตโนมัติ (ถามเฉพาะเมื่อ logic ชนกันเอง) แล้วเพิ่มบรรทัด `@logics/<name>/LOGIC.md` ใน AVA.md (เก็บคลังได้หลายตัว เปิดเฉพาะที่เลือก) |
 | **ava-memory** | `/ava-memory [ข้อความ]` | บันทึก / ค้นหา / ลบ ความทรงจำใน `.claude/ava/memories/` แยกตามประเภท พร้อม INDEX.md เป็นสารบัญ (Ava เรียกใช้เองได้) |
 
 ---

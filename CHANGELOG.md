@@ -1,5 +1,19 @@
 # Changelog
 
+## [2026-10-28] — v2.2.0
+
+### Changed
+- ลำดับความสำคัญเมื่อ logic ขัดกับ Ava: `RULE.md` ชนะเสมอ → คอลัมน์ "owner ตัดสิน" ของ LOGIC.md → logic ที่เปิดใช้ชนะกฎใน AVA.md / SOUL.md (คอลัมน์ว่าง = ใช้แบบ logic) · logic ชนกันเอง = ถาม owner แล้วบันทึกลงตาราง "เมื่อใช้คู่กับ logic อื่น" ของทั้งสอง logic · เลิกใช้กฎ "บรรทัดบนชนะบรรทัดล่าง" · ไม่มี logic เปิดใช้ → Ava ทำงานแบบเดิม
+- `ava-use-logic` แสดงตาราง "ชนกับ Ava" ในขั้น review และถาม owner เฉพาะเรื่องที่ขัดกับ logic อื่น (เดิมถามทุกจุดที่ชนกับ Ava)
+- `ava-connector` ตาราง "ชนกับ Ava" ว่าง = ใช้แบบ logic
+- `add-import.sh` ดึง blockquote ของ section Active Logics จาก template ของ ava-init (แหล่งเดียว)
+
+### Added
+- `ava-check` M6 — อัปเดต blockquote ลำดับความสำคัญแบบเก่าใน `.claude/ava/AVA.md` (`scripts/logic-precedence.sh check|fix`, รองรับ CRLF, ไม่แตะบรรทัด `@logics/...`)
+
+### Fixed
+- `ava-use-logic` / `ava-doctor` — Claude Code แทนที่ตัวแปร positional ใน SKILL.md ด้วย argument ของ skill ทำให้ awk ลบบรรทัดใน section Active Logics และ `verlte` เทียบ version ผิด → ย้าย awk ไปที่ `scripts/add-import.sh` และเลิกใช้ function ที่รับ argument แบบ positional
+
 ## [2026-10-28] — v2.1.0 🚀 Deploy
 
 ### 🚀 Deploy
