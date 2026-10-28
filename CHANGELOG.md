@@ -1,5 +1,14 @@
 # Changelog
 
+## [2026-10-28] — v2.3.0
+
+### Changed
+- `ava-validate` ตัด L1 ออก — L1 คือการ verify ตามกฎใน `SOUL.md` ที่ Ava ทำทุกงานอยู่แล้ว เหลือ L2 / L3 (ข้อพื้นฐาน "รันจริง + ตรงโจทย์" ย้ายเข้า L2) · งานไม่เข้าเกณฑ์ → แจ้งว่า verify ปกติทำแล้วพร้อมหลักฐาน และให้เลือกตรวจ L2 ต่อหรือยกเลิก
+- `ava-validate` L3 เมื่อใช้คู่กับ superpowers: code ชุดเดียวกันผ่าน final review ของ superpowers แล้ว → ข้อ L2 ทั่วไปอ้างผล review ได้ แต่ยังส่งผู้ตรวจอิสระเฉพาะ checklist เฉพาะด้าน
+
+### Fixed
+- `ava-doctor` แสดง changelog ของ version ใหม่ได้แค่ deploy record (regex ไม่ match header ที่จบด้วยเลข version + หยุดที่ `---` ตัวแรก) → ใช้ `scripts/changelog-entry.sh` ดึง entry ของ version แบบเทียบ string และข้าม deploy record
+
 ## [2026-10-28] — v2.2.0 🚀 Deploy
 
 ### 🚀 Deploy

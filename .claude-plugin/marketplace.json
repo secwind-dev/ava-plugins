@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "Ava Claude Plugins — ชุด skills สำหรับ setup โปรเจกต์, สร้าง hooks, review code, และติดตั้ง MCP servers",
-    "version": "2.2.0"
+    "version": "2.3.0"
   },
   "plugins": [
     {
@@ -16,7 +16,7 @@
         "repo": "secwind-dev/ava-plugins"
       },
       "description": "Ava Claude Plugins — ชุด skills สำหรับ setup และจัดการโปรเจกต์ด้วย Claude Code",
-      "version": "2.2.0",
+      "version": "2.3.0",
       "author": {
         "name": "SecWind"
       },
