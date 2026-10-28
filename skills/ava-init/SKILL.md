@@ -1,7 +1,6 @@
 ---
 name: ava-init
-description: 'One-time project setup wizard. Usage: /ava-init <project-name>. Creates CLAUDE.md, RULE.md, SOUL.md, PROJECT.md, MEMORY.md, CHANGELOG.md, and DEPLOY.md for a new project.'
-argument-hint: 'ชื่อโปรเจกต์ (required)'
+description: 'One-time project setup wizard. Usage: /ava-init. Creates CLAUDE.md, RULE.md, SOUL.md, MEMORY.md, CHANGELOG.md, and DEPLOY.md for a new project.'
 disable-model-invocation: true
 ---
 
@@ -9,26 +8,9 @@ disable-model-invocation: true
 
 ---
 
-## ขั้นที่ 0 — รับ Argument
+## ขั้นที่ 1 — สร้างไฟล์ทั้งหมด
 
-ชื่อโปรเจกต์ที่รับมา: `$ARGUMENTS`
-
-- ถ้า `$ARGUMENTS` ว่างเปล่า → แจ้ง user ว่า "กรุณาระบุชื่อโปรเจกต์ เช่น `/ava-init ชื่อโปรเจกต์`" แล้วหยุด
-
----
-
-## ขั้นที่ 1 — ถามข้อมูลเริ่มต้น
-
-ใช้ `AskUserQuestion` ถามคำถาม 2 ข้อพร้อมกันทีเดียว:
-
-1. **บทบาทของ Claude ในโปรเจกต์นี้คืออะไร?** (เช่น backend dev assistant, fullstack helper)
-2. **โปรเจกต์นี้ทำอะไร?** (อธิบายสั้นๆ)
-
----
-
-## ขั้นที่ 2 — สร้างไฟล์ทั้งหมด
-
-หลังได้รับคำตอบครบแล้ว ให้สร้างไฟล์ต่อไปนี้ตามลำดับโดยใช้ tool `Read` อ่าน template แล้วใช้ tool `Write` สร้างที่ปลายทาง แทนที่ `[placeholder]` ด้วยข้อมูลจาก user/argument และแทนที่ `[วันที่ปัจจุบัน]` ด้วยวันที่จริงในรูปแบบ YYYY-MM-DD:
+สร้างไฟล์ต่อไปนี้ตามลำดับโดยใช้ tool `Read` อ่าน template แล้วใช้ tool `Write` สร้างที่ปลายทาง แทนที่ `[วันที่ปัจจุบัน]` ด้วยวันที่จริงในรูปแบบ YYYY-MM-DD:
 
 > **Template path:**
 >
@@ -55,17 +37,7 @@ disable-model-invocation: true
 
 อ่านจาก template: `<base_dir>/templates/SOUL.md`
 ใช้ Write tool สร้างที่ `.claude/ava/SOUL.md`
-แทนที่ `[บทบาทที่ user กำหนด]` ด้วยคำตอบข้อ 1
-
-### .claude/ava/PROJECT.md
-
-อ่านจาก template: `<base_dir>/templates/PROJECT.md`
-ใช้ Write tool สร้างที่ `.claude/ava/PROJECT.md`
-แทนที่:
-
-- `[ชื่อโปรเจกต์]` ด้วยชื่อจาก argument
-- `[คำอธิบายที่ user ให้มา]` ด้วยคำตอบข้อ 2
-- `[วันที่ปัจจุบัน]` ด้วยวันที่จริง
+คง `[บทบาทที่ user กำหนด]` ไว้ตามเดิม — ให้ user แก้เองภายหลัง
 
 ### .claude/ava/MEMORY.md
 
@@ -85,25 +57,25 @@ disable-model-invocation: true
 
 ---
 
-## ขั้นที่ 3 — สร้าง Default Hooks
+## ขั้นที่ 2 — สร้าง Default Hooks
 
-### 3.1 — สร้างโฟลเดอร์
+### 2.1 — สร้างโฟลเดอร์
 
 ```bash
-mkdir -p .claude/hooks .claude/ava/awaken .claude/ava/session
+mkdir -p .claude/hooks .claude/ava/awaken
 ```
 
-### 3.2 — สร้าง track-action.sh
+### 2.2 — สร้าง track-action.sh
 
 อ่านจาก template: `<base_dir>/templates/hooks/track-action.sh`
 ใช้ Write tool สร้างที่ `.claude/hooks/track-action.sh`
 
-### 3.3 — สร้าง notify-done.sh
+### 2.3 — สร้าง notify-done.sh
 
 อ่านจาก template: `<base_dir>/templates/hooks/notify-done.sh`
 ใช้ Write tool สร้างที่ `.claude/hooks/notify-done.sh`
 
-### 3.4 — ให้สิทธิ์ execute ทั้ง 2 ไฟล์
+### 2.4 — ให้สิทธิ์ execute ทั้ง 2 ไฟล์
 
 ```bash
 chmod +x .claude/hooks/track-action.sh
@@ -116,7 +88,7 @@ chmod +x .claude/hooks/notify-done.sh
 grep -qxF '.claude/hooks/last-action.tmp' .gitignore 2>/dev/null || echo '.claude/hooks/last-action.tmp' >> .gitignore
 ```
 
-### 3.5 — ลงทะเบียน hooks ใน .claude/settings.json
+### 2.5 — ลงทะเบียน hooks ใน .claude/settings.json
 
 อ่านไฟล์ `.claude/settings.json` ก่อน
 
@@ -127,19 +99,18 @@ grep -qxF '.claude/hooks/last-action.tmp' .gitignore 2>/dev/null || echo '.claud
 
 ---
 
-## ขั้นที่ 4 — แจ้งผลและ Next Steps
+## ขั้นที่ 3 — แจ้งผลและ Next Steps
 
 หลังสร้างไฟล์ครบทั้งหมดแล้ว แจ้ง user ดังนี้:
 
 ```
-✅ Setup เสร็จแล้ว! สร้างไฟล์ 9 ไฟล์ + 2 โฟลเดอร์ + ตั้งค่า 1 config
+✅ Setup เสร็จแล้ว! สร้างไฟล์ 8 ไฟล์ + 1 โฟลเดอร์ + ตั้งค่า 1 config
 
 📁 ไฟล์ที่สร้าง:
 ✅ CLAUDE.md
 ✅ CHANGELOG.md
 ✅ .claude/ava/RULE.md
 ✅ .claude/ava/SOUL.md
-✅ .claude/ava/PROJECT.md
 ✅ .claude/ava/MEMORY.md
 ✅ .claude/ava/DEPLOY.md
 ✅ .claude/hooks/track-action.sh
@@ -148,13 +119,13 @@ grep -qxF '.claude/hooks/last-action.tmp' .gitignore 2>/dev/null || echo '.claud
 
 📂 โฟลเดอร์ที่สร้าง:
 ✅ .claude/ava/awaken/ — สำหรับ Tier 4 Awaken Knowledge (ใช้กับ /ava-awaken)
-✅ .claude/ava/session/ — สำหรับ Tier 3 Session context (ใช้กับ /ava-on-session)
 
 📌 Next Steps:
 
-1. package recommend สำหรับ update version package.json รัน `npm install -D @changesets/cli` แล้วรัน `npx changeset init`
-2. รัน skill /ava-check เพื่อตรวจสอบว่าไฟล์ทั้งหมดถูกโหลดและไม่มีปัญหา
-3. พิมพ์ `ava-status` เพื่อตรวจสอบว่าทุกอย่างพร้อม
+1. แก้ `[บทบาทที่ user กำหนด]` ใน `.claude/ava/SOUL.md` ให้เป็นบทบาทของ Claude ในโปรเจกต์นี้
+2. package recommend สำหรับ update version package.json รัน `npm install -D @changesets/cli` แล้วรัน `npx changeset init`
+3. รัน skill /ava-check เพื่อตรวจสอบว่าไฟล์ทั้งหมดถูกโหลดและไม่มีปัญหา
+4. พิมพ์ `ava-status` เพื่อตรวจสอบว่าทุกอย่างพร้อม
 
 พร้อมเริ่มงานแล้ว! 🚀
 ```

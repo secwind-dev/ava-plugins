@@ -4,14 +4,12 @@
 
 ### ➕ สร้างใหม่ (Created)
 
-- `CLAUDE.md` — สร้างครั้งแรกโดย sw-init wizard
-- `CHANGELOG.md` — สร้างครั้งแรกโดย sw-init wizard
-- `.claude/sw/RULE.md` — สร้างครั้งแรกโดย sw-init wizard
-- `.claude/sw/SOUL.md` — สร้างครั้งแรกโดย sw-init wizard
-- `.claude/sw/PROJECT.md` — สร้างครั้งแรกโดย sw-init wizard
-- `.claude/sw/MEMORY.md` — สร้างครั้งแรกโดย sw-init wizard
-- `.claude/sw/PACKAGES.md` — สร้างครั้งแรกโดย sw-init wizard
-- `.claude/sw/DEPLOY.md` — สร้างครั้งแรกโดย sw-init wizard
+- `CLAUDE.md` — สร้างครั้งแรกโดย ava-init wizard
+- `CHANGELOG.md` — สร้างครั้งแรกโดย ava-init wizard
+- `.claude/ava/RULE.md` — สร้างครั้งแรกโดย ava-init wizard
+- `.claude/ava/SOUL.md` — สร้างครั้งแรกโดย ava-init wizard
+- `.claude/ava/MEMORY.md` — สร้างครั้งแรกโดย ava-init wizard
+- `.claude/ava/DEPLOY.md` — สร้างครั้งแรกโดย ava-init wizard
 
 ## 🔖 กฎการบันทึก
 

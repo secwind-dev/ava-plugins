@@ -28,18 +28,12 @@
 
 | Skill | คำสั่ง | คำอธิบาย |
 |-------|--------|----------|
-| **ava-init** | `/ava-init <ชื่อโปรเจกต์>` | One-time setup สร้างไฟล์ทั้งหมด (CLAUDE.md, RULE.md, SOUL.md, MEMORY.md ฯลฯ) พร้อม default hooks อัตโนมัติ |
-| **ava-hook** | `/ava-hook <ชื่อ-hook>` | สร้าง Claude Code hook แบบ guided พร้อม boilerplate และลงทะเบียนใน settings.json |
+| **ava-init** | `/ava-init` | One-time setup สร้างไฟล์ทั้งหมด (CLAUDE.md, RULE.md, SOUL.md, MEMORY.md ฯลฯ) พร้อม default hooks อัตโนมัติ |
 | **ava-review** | `/ava-review [target]` | Code review จาก git diff พร้อมวิเคราะห์ security, คะแนน quality, และแนะนำ best practices |
 | **ava-validate** | `/ava-validate [task]` | ตรวจงานสำคัญตามระดับ L1/L2/L3 แก้ checklist ได้ก่อนตรวจ L3 มีผู้ตรวจอิสระ |
-| **ava-explore** | `/ava-explore [topic] [files...]` | สำรวจ topic ซับซ้อนผ่านการถามตอบ interactive โยนไฟล์แนบได้ บันทึกลง `.claude/ava/explore/<topic>/` |
-| **ava-deploy** | `/ava-deploy` | Deploy โปรเจกต์โดยอ่านและทำตาม `.claude/ava/DEPLOY.md` ทีละขั้นอัตโนมัติ |
-| **ava-commit** | `/ava-commit` | วิเคราะห์ git diff แล้วสร้าง Conventional Commit message พร้อม confirm ก่อน commit |
 | **ava-check** | `/ava-check` | ตรวจสอบ environment: runtime, git config, package manager, และ .env security |
 | **ava-doctor** | `/ava-doctor` | ตรวจสอบ version เทียบกับ marketplace บน GitHub แจ้งเมื่อมี version ใหม่ให้อัปเดต |
-| **ava-docs** | `/ava-docs` | แสดงคู่มือการใช้งาน skills ทั้งหมด โดยดึงจาก GitHub สดทุกครั้ง |
 | **ava-awaken** | `/ava-awaken` | โหลด awaken knowledge ถาวรของ Claude จาก `.claude/ava/awaken/` |
-| **ava-on-session** | `/ava-on-session` | เรียกใช้งานเมื่อเริ่ม session ใหม่ เพื่อ bootstrap context |
 
 ---
 

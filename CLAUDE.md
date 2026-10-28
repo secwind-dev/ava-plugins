@@ -22,7 +22,6 @@
 | จำ / บันทึก / ความทรงจำ                 | `.claude/ava/MEMORY.md`          |
 | deploy / release / publish / versioning | `.claude/ava/DEPLOY.md`          |
 | แก้ไข / สร้าง / ลบไฟล์ใดๆ               | `CHANGELOG.md` (บันทึกทุกครั้ง) |
-| ข้อมูลโปรเจกต์ / about / สรุปโปรเจกต์   | `.claude/ava/PROJECT.md`         |
 
 ---
 
