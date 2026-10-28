@@ -162,10 +162,10 @@ CHANGELOG=$(curl -sf "https://raw.githubusercontent.com/secwind-dev/ava-plugins/
 if [ -z "$CHANGELOG" ]; then
   echo "CHANGELOG_NOT_FOUND"
 else
-  # ดึงเฉพาะ section ของ version ล่าสุด (ตั้งแต่ header จนถึง --- ถัดไป)
-  echo "$CHANGELOG" | awk \
-    "/^## \[.*\].*v${REMOTE_VER}[^0-9]/{found=1} found{print; if(/^---/ && NR>1){exit}}" \
-    | head -30
+  # แก้ไข: ใช้ script ดึง entry ของ version (ข้าม deploy record) — regex เดิมได้แค่ deploy record
+  # (<Base directory for this skill> คือ path ใน header ของ skill)
+  ENTRY=$(printf '%s\n' "$CHANGELOG" | bash "<Base directory for this skill>/scripts/changelog-entry.sh" "$REMOTE_VER")
+  [ -n "$ENTRY" ] && printf '%s\n' "$ENTRY" || echo "CHANGELOG_NOT_FOUND"
 fi
 ```
 
