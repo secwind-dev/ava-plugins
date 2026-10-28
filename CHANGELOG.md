@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 ### Added
+- `.claude/ava/knowledge/` + `INDEX.md` — ข้อมูลโปรเจกต์ที่ owner เขียนเอง, Ava อ่านอย่างเดียว, ยึดเป็นหลักเมื่อขัดกับ memories (ava-init สร้างให้, Startup โหลด INDEX, routing ใน CLAUDE.md)
 - skill `ava-memory` — บันทึก / ค้นหา / ลบ ความทรงจำใน `.claude/ava/memories/` (sessions / decisions / preferences / facts) พร้อม `INDEX.md` เป็นสารบัญ, Ava เรียกใช้เองได้
 - `ava-init`: สร้าง `.claude/ava/memories/INDEX.md` + โฟลเดอร์ย่อย, Startup Sequence โหลด INDEX.md, SOUL.md เพิ่มกฎเสนอบันทึกความทรงจำ
 

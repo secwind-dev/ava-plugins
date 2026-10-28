@@ -8,8 +8,9 @@
 
 1. อ่าน `.claude/ava/RULE.md` — โหลดกฎความปลอดภัย (ถ้าไม่มีให้รัน `ava-init` ก่อน)
 2. อ่าน `.claude/ava/SOUL.md` — โหลดตัวตนและบุคลิกภาพ
-3. อ่าน `.claude/ava/memories/INDEX.md` — โหลดสารบัญความทรงจำ (อ่านเฉพาะ INDEX เปิดไฟล์ memory เมื่อเกี่ยวข้องเท่านั้น)
-4. เริ่มสนทนา
+3. อ่าน `.claude/ava/knowledge/INDEX.md` — โหลดสารบัญ knowledge ของโปรเจกต์ (อ่านเฉพาะ INDEX เปิดไฟล์เมื่อเกี่ยวข้องเท่านั้น)
+4. อ่าน `.claude/ava/memories/INDEX.md` — โหลดสารบัญความทรงจำ (อ่านเฉพาะ INDEX เปิดไฟล์ memory เมื่อเกี่ยวข้องเท่านั้น)
+5. เริ่มสนทนา
 
 ---
 
@@ -19,6 +20,7 @@
 
 | เมื่อเกี่ยวกับเรื่อง                    | ให้ไปอ่าน                       |
 | --------------------------------------- | ------------------------------- |
+| ข้อมูลโปรเจกต์ / business rule / domain / spec | `.claude/ava/knowledge/INDEX.md` (อ่านอย่างเดียว) |
 | จำ / บันทึก / ความทรงจำ / เคยคุยอะไร     | skill `ava-memory` + `.claude/ava/memories/INDEX.md` |
 | deploy / release / publish / versioning | `.claude/ava/DEPLOY.md`          |
 | แก้ไข / สร้าง / ลบไฟล์ใดๆ               | `CHANGELOG.md` (บันทึกทุกครั้ง) |
@@ -64,3 +66,5 @@
 - ถ้าไม่มีไฟล์ใดๆ เลย → แจ้ง user ให้รัน `ava-init` ก่อน
 - ห้ามโหลดไฟล์ที่ไม่เกี่ยวข้องกับงาน (lazy load เท่านั้น)
 - `.claude/ava/RULE.md` ต้องโหลดทุก session ยกเว้นไม่ได้
+- `.claude/ava/knowledge/` เป็นของ owner — Ava **อ่านอย่างเดียว** ห้ามสร้าง/แก้/ลบ เจอข้อมูลที่ควรเพิ่ม/แก้ หรือขัดกับ code จริง → เสนอ owner
+- ข้อมูลใน `knowledge/` ขัดกับ `memories/` → ยึด `knowledge/` เป็นหลัก

@@ -8,6 +8,7 @@
 - `CHANGELOG.md` — สร้างครั้งแรกโดย ava-init wizard
 - `.claude/ava/RULE.md` — สร้างครั้งแรกโดย ava-init wizard
 - `.claude/ava/SOUL.md` — สร้างครั้งแรกโดย ava-init wizard
+- `.claude/ava/knowledge/INDEX.md` — สร้างครั้งแรกโดย ava-init wizard
 - `.claude/ava/memories/INDEX.md` — สร้างครั้งแรกโดย ava-init wizard
 - `.claude/ava/DEPLOY.md` — สร้างครั้งแรกโดย ava-init wizard
 

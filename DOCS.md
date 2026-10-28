@@ -9,6 +9,7 @@
 - `CLAUDE.md` — คำสั่งและ routing table สำหรับ Claude
 - `.claude/ava/RULE.md` — กฎความปลอดภัย
 - `.claude/ava/SOUL.md` — ตัวตนและบุคลิกภาพ
+- `.claude/ava/knowledge/INDEX.md` — สารบัญ knowledge ของโปรเจกต์ที่ owner เขียนเอง (Ava อ่านอย่างเดียว)
 - `.claude/ava/memories/INDEX.md` — สารบัญความทรงจำ (+ โฟลเดอร์ sessions / decisions / preferences / facts)
 - `.claude/ava/DEPLOY.md` — คู่มือ deploy
 - `CHANGELOG.md` — บันทึกการเปลี่ยนแปลง
@@ -116,3 +117,4 @@
 - `INDEX.md` โหลดทุก session — ถาม "วันนี้คุยอะไรไว้บ้าง" Ava กรองจาก INDEX แล้วเปิดเฉพาะไฟล์ที่ตรง
 - Ava เรียกใช้เองได้เมื่อ user พูดว่า "จำไว้" / "บันทึกไว้" หรือถามเรื่องที่เคยคุย
 - memories/ เข้า git เพื่อใช้ร่วมกันทั้งทีม — ห้ามบันทึก secret / ข้อมูลส่วนบุคคล
+- ข้อมูลขัดกับ `.claude/ava/knowledge/` (ของ owner, Ava อ่านอย่างเดียว) → ยึด knowledge เป็นหลัก

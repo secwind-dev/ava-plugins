@@ -1,6 +1,6 @@
 ---
 name: ava-init
-description: 'One-time project setup wizard. Usage: /ava-init. Creates CLAUDE.md, RULE.md, SOUL.md, memories/INDEX.md, CHANGELOG.md, and DEPLOY.md for a new project.'
+description: 'One-time project setup wizard. Usage: /ava-init. Creates CLAUDE.md, RULE.md, SOUL.md, knowledge/INDEX.md, memories/INDEX.md, CHANGELOG.md, and DEPLOY.md for a new project.'
 disable-model-invocation: true
 ---
 
@@ -39,6 +39,11 @@ disable-model-invocation: true
 ใช้ Write tool สร้างที่ `.claude/ava/SOUL.md`
 คง `[บทบาทที่ user กำหนด]` ไว้ตามเดิม — ให้ user แก้เองภายหลัง
 
+### .claude/ava/knowledge/INDEX.md
+
+อ่านจาก template: `<base_dir>/templates/knowledge/INDEX.md`
+ใช้ Write tool สร้างที่ `.claude/ava/knowledge/INDEX.md` — ไม่มี placeholder ในไฟล์นี้ (สารบัญ knowledge ที่ owner เขียนเอง Ava อ่านอย่างเดียว)
+
 ### .claude/ava/memories/INDEX.md
 
 อ่านจาก template: `<base_dir>/templates/memories/INDEX.md`
@@ -62,7 +67,7 @@ disable-model-invocation: true
 ### 2.1 — สร้างโฟลเดอร์
 
 ```bash
-mkdir -p .claude/hooks .claude/ava/memories/sessions .claude/ava/memories/decisions .claude/ava/memories/preferences .claude/ava/memories/facts
+mkdir -p .claude/hooks .claude/ava/knowledge .claude/ava/memories/sessions .claude/ava/memories/decisions .claude/ava/memories/preferences .claude/ava/memories/facts
 ```
 
 ### 2.2 — สร้าง track-action.sh
@@ -104,13 +109,14 @@ grep -qxF '.claude/hooks/last-action.tmp' .gitignore 2>/dev/null || echo '.claud
 หลังสร้างไฟล์ครบทั้งหมดแล้ว แจ้ง user ดังนี้:
 
 ```
-✅ Setup เสร็จแล้ว! สร้างไฟล์ 8 ไฟล์ + 1 โฟลเดอร์ + ตั้งค่า 1 config
+✅ Setup เสร็จแล้ว! สร้างไฟล์ 9 ไฟล์ + 2 โฟลเดอร์ + ตั้งค่า 1 config
 
 📁 ไฟล์ที่สร้าง:
 ✅ CLAUDE.md
 ✅ CHANGELOG.md
 ✅ .claude/ava/RULE.md
 ✅ .claude/ava/SOUL.md
+✅ .claude/ava/knowledge/INDEX.md
 ✅ .claude/ava/memories/INDEX.md
 ✅ .claude/ava/DEPLOY.md
 ✅ .claude/hooks/track-action.sh
@@ -118,13 +124,15 @@ grep -qxF '.claude/hooks/last-action.tmp' .gitignore 2>/dev/null || echo '.claud
 ✅ .claude/settings.json
 
 📂 โฟลเดอร์ที่สร้าง:
+✅ .claude/ava/knowledge/ — ข้อมูลโปรเจกต์ที่ owner เขียนเอง (business rule, domain, spec) Ava อ่านอย่างเดียว
 ✅ .claude/ava/memories/ — ความทรงจำแยกตามประเภท sessions / decisions / preferences / facts (ใช้กับ /ava-memory)
 
 📌 Next Steps:
 
 1. แก้ `[บทบาทที่ user กำหนด]` ใน `.claude/ava/SOUL.md` ให้เป็นบทบาทของ Claude ในโปรเจกต์นี้
-2. package recommend สำหรับ update version package.json รัน `npm install -D @changesets/cli` แล้วรัน `npx changeset init`
-3. รัน skill /ava-check เพื่อตรวจสอบว่าไฟล์ทั้งหมดถูกโหลดและไม่มีปัญหา
+2. เพิ่มข้อมูลโปรเจกต์ใน `.claude/ava/knowledge/` แล้วลงทะเบียนใน `knowledge/INDEX.md`
+3. package recommend สำหรับ update version package.json รัน `npm install -D @changesets/cli` แล้วรัน `npx changeset init`
+4. รัน skill /ava-check เพื่อตรวจสอบว่าไฟล์ทั้งหมดถูกโหลดและไม่มีปัญหา
 
 พร้อมเริ่มงานแล้ว! 🚀
 ```

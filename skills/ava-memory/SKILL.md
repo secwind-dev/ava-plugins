@@ -104,6 +104,14 @@ mkdir -p .claude/ava/memories/sessions .claude/ava/memories/decisions .claude/av
 
 ---
 
+## ขั้นที่ 1.5 — แยก memory กับ knowledge
+
+- `.claude/ava/knowledge/` เป็นของ owner — skill นี้ **ห้ามเขียน / แก้ / ลบ** ไฟล์ในนั้น
+- เรื่องที่จะบันทึกเป็นข้อมูลโปรเจกต์ระยะยาว (business rule, domain, spec) → บันทึกเป็น `fact` ได้ แต่แนะนำ owner ให้ย้ายไปเขียนใน `knowledge/`
+- โหมด C (ค้นหา) → ค้น `knowledge/INDEX.md` ด้วย ถ้าข้อมูลขัดกัน **ยึด knowledge เป็นหลัก** และบอก user ว่า memory ไหนล้าสมัย
+
+---
+
 ## ขั้นที่ 2 — กฎความปลอดภัย (เช็คก่อนเขียนทุกครั้ง)
 
 memories/ ถูก commit เข้า git และแชร์ทั้งทีม — **ห้ามบันทึก**:
