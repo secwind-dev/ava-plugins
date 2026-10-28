@@ -1,6 +1,6 @@
 ---
 name: ava-check
-description: 'ตรวจสอบและอัปเดต plugin structure ให้ตรงกับ version ปัจจุบัน — rename SYSTEM.md → SOUL.md, อัปเดต references, เปลี่ยนชื่อ character, ย้ายกฎ Ava จาก CLAUDE.md → .claude/ava/AVA.md. Usage: /ava-check'
+description: 'ตรวจสอบและอัปเดต plugin structure ให้ตรงกับ version ปัจจุบัน — rename SYSTEM.md → SOUL.md, อัปเดต references, เปลี่ยนชื่อ character, ย้ายกฎ Ava จาก CLAUDE.md → .claude/ava/AVA.md, อัปเดตลำดับความสำคัญของ logic ใน AVA.md. Usage: /ava-check'
 disable-model-invocation: true
 ---
 
@@ -10,7 +10,7 @@ disable-model-invocation: true
 
 ## ขั้นที่ 1 — ตรวจ Migration Issues
 
-รัน Bash commands เพื่อตรวจ 5 จุด:
+รัน Bash commands เพื่อตรวจ 6 จุด:
 
 ```bash
 # M1: ตรวจว่ายังมี SYSTEM.md และยังไม่มี SOUL.md
@@ -40,6 +40,13 @@ elif [ -f .claude/ava/AVA.md ] && ! grep -qxF '@.claude/ava/AVA.md' CLAUDE.md 2>
 else echo "M5_OK"; fi
 ```
 
+```bash
+# M6: ลำดับความสำคัญของ logic แบบเก่าใน section Active Logics ของ AVA.md
+# (<Base directory for this skill> คือ path ใน header ของ skill · ไม่มี AVA.md → ข้าม)
+if [ -f .claude/ava/AVA.md ]; then bash "<Base directory for this skill>/scripts/logic-precedence.sh" check
+else echo "M6_OK"; fi
+```
+
 บันทึกผลแต่ละข้อไว้ก่อน
 
 ---
@@ -65,6 +72,7 @@ else echo "M5_OK"; fi
     - ⚠️ M3: `notify-done.sh` ยังมี reference ถึง SYSTEM.md
     - ⚠️ M4: พบชื่อ "อิงโกะ" ใน `.claude/ava/`
     - ⚠️ M5: กฎของ Ava ยังอยู่ใน `CLAUDE.md` (ต้องย้ายไป `.claude/ava/AVA.md` + import) / หรือ CLAUDE.md ยังไม่มีบรรทัด import
+    - ⚠️ M6: ลำดับความสำคัญของ logic ใน AVA.md เป็นแบบเก่า (บรรทัดบนชนะบรรทัดล่าง) — จะแทนที่ blockquote ทั้งก้อนใต้ "## 🧩 Active Logics" (บรรทัด > ที่เพิ่มเองจะหาย)
 
     Fix ทั้งหมดเลยไหม?
     ```
@@ -77,7 +85,7 @@ else echo "M5_OK"; fi
 
 ## ขั้นที่ 3 — Execute Fixes (ถ้า user เลือก Fix)
 
-แก้ตามลำดับ — **ทำ M1 ก่อนเสมอ** เพราะ M4 ต้องการ SOUL.md:
+แก้ตามลำดับ — **ทำ M1 ก่อนเสมอ** เพราะ M4 ต้องการ SOUL.md · **M6 ทำหลัง M5** เพราะ M5 อาจเพิ่งสร้าง AVA.md:
 
 **Fix M1** (ถ้า M1_FOUND และ SOUL_MISSING):
 
@@ -119,6 +127,14 @@ printf '# CLAUDE.md\n\n<!-- ava: โหลดกฎของ Ava — ลบบ�
 printf '\n<!-- ava: โหลดกฎของ Ava — ลบบรรทัดด้านล่างเพื่อปิด Ava -->\n@.claude/ava/AVA.md\n' >> CLAUDE.md
 ```
 
+**Fix M6** (ถ้า M6_FOUND) — แทนที่ blockquote ใต้ `## 🧩 Active Logics` ด้วยข้อความจาก template ปัจจุบัน (บรรทัด `@logics/...` และส่วนอื่นไม่แตะ):
+
+```bash
+bash "<Base directory for this skill>/scripts/logic-precedence.sh" fix
+```
+
+ผลลัพธ์: `M6_FIXED` = แก้แล้ว · `M6_OK` = ไม่มีอะไรต้องแก้
+
 ---
 
 ## ขั้นที่ 4 — แสดงสรุปผล
@@ -135,6 +151,7 @@ printf '\n<!-- ava: โหลดกฎของ Ava — ลบบรรทัด
 | notify-done.sh reference | ✅/⚠️  | อัปเดตแล้ว / ข้ามไป / ไม่มีปัญหา  |
 | ชื่อ character            | ✅/⚠️  | เอวาแล้ว / ข้ามไป / ไม่มีปัญหา   |
 | CLAUDE.md → AVA.md       | ✅/⚠️  | ย้ายแล้ว / เพิ่ม import / ข้ามไป / ไม่มีปัญหา |
+| ลำดับความสำคัญ logic     | ✅/⚠️  | อัปเดตแล้ว / ข้ามไป / ไม่มีปัญหา  |
 ```
 
 ถ้ามี ⚠️ ค้างอยู่ → แนะนำให้รัน `/ava-check` อีกครั้งหลังแก้ไขเอง
