@@ -9,7 +9,7 @@
 - `CLAUDE.md` — คำสั่งและ routing table สำหรับ Claude
 - `.claude/ava/RULE.md` — กฎความปลอดภัย
 - `.claude/ava/SOUL.md` — ตัวตนและบุคลิกภาพ
-- `.claude/ava/MEMORY.md` — ความทรงจำข้ามเซสชั่น
+- `.claude/ava/memories/INDEX.md` — สารบัญความทรงจำ (+ โฟลเดอร์ sessions / decisions / preferences / facts)
 - `.claude/ava/DEPLOY.md` — คู่มือ deploy
 - `CHANGELOG.md` — บันทึกการเปลี่ยนแปลง
 - `.claude/hooks/` — default hooks (track-action + notify-done)
@@ -102,13 +102,17 @@
 
 ---
 
-### `/ava-awaken [url]`
+### `/ava-memory [ข้อความ] | find <คำค้น> | forget <เรื่อง>`
 
-**ความรู้ถาวรข้ามทุก session** — สอนเอวาให้รู้จักบางอย่างตลอดไป เช่น ข้อมูลบริษัท, spec โปรเจกต์
+**ความทรงจำของ Ava** — เก็บใน `.claude/ava/memories/` แยกโฟลเดอร์ตามประเภท มี `INDEX.md` เป็นสารบัญ 1 แถวต่อ 1 ไฟล์
 
-- ไม่ระบุ argument → โหลดไฟล์ทั้งหมดใน `.claude/ava/awaken/` เข้า context
-- ระบุ URL → fetch เนื้อหา + **บันทึกเป็นไฟล์ถาวร** ใน `.claude/ava/awaken/`
-- ถ้ายังไม่มี folder → สร้างให้อัตโนมัติ + ตั้งค่า auto-load ใน `SOUL.md`
+| คำสั่ง | ทำอะไร |
+| --- | --- |
+| `/ava-memory` | สรุปบทสนทนานี้ลง `sessions/` + แยก decision / preference / fact เป็นไฟล์ของตัวเอง |
+| `/ava-memory <ข้อความ>` | บันทึกเรื่องที่ระบุ — มีเรื่องเดิมแล้วจะอัปเดตแทนสร้างซ้ำ |
+| `/ava-memory find <คำค้น>` | ค้นจาก INDEX ก่อน แล้ว grep เนื้อหา |
+| `/ava-memory forget <เรื่อง>` | ลบไฟล์ + แถวใน INDEX (confirm ก่อน) |
 
-> ✨ ความรู้ใน `awaken/` จะ **auto-load ทุก session** โดยอัตโนมัติ ไม่ต้องรันซ้ำ
-> ⚠️ ไฟล์ใหญ่มากอาจกิน context window ทุก session — แนะนำเก็บเฉพาะข้อมูลสำคัญ
+- `INDEX.md` โหลดทุก session — ถาม "วันนี้คุยอะไรไว้บ้าง" Ava กรองจาก INDEX แล้วเปิดเฉพาะไฟล์ที่ตรง
+- Ava เรียกใช้เองได้เมื่อ user พูดว่า "จำไว้" / "บันทึกไว้" หรือถามเรื่องที่เคยคุย
+- memories/ เข้า git เพื่อใช้ร่วมกันทั้งทีม — ห้ามบันทึก secret / ข้อมูลส่วนบุคคล

@@ -28,12 +28,12 @@
 
 | Skill | คำสั่ง | คำอธิบาย |
 |-------|--------|----------|
-| **ava-init** | `/ava-init` | One-time setup สร้างไฟล์ทั้งหมด (CLAUDE.md, RULE.md, SOUL.md, MEMORY.md ฯลฯ) พร้อม default hooks อัตโนมัติ |
+| **ava-init** | `/ava-init` | One-time setup สร้างไฟล์ทั้งหมด (CLAUDE.md, RULE.md, SOUL.md, memories/INDEX.md ฯลฯ) พร้อม default hooks อัตโนมัติ |
 | **ava-review** | `/ava-review [target]` | Code review จาก git diff พร้อมวิเคราะห์ security, คะแนน quality, และแนะนำ best practices |
 | **ava-validate** | `/ava-validate [task]` | ตรวจงานสำคัญตามระดับ L1/L2/L3 แก้ checklist ได้ก่อนตรวจ L3 มีผู้ตรวจอิสระ |
 | **ava-check** | `/ava-check` | ตรวจสอบ environment: runtime, git config, package manager, และ .env security |
 | **ava-doctor** | `/ava-doctor` | ตรวจสอบ version เทียบกับ marketplace บน GitHub แจ้งเมื่อมี version ใหม่ให้อัปเดต |
-| **ava-awaken** | `/ava-awaken` | โหลด awaken knowledge ถาวรของ Claude จาก `.claude/ava/awaken/` |
+| **ava-memory** | `/ava-memory [ข้อความ]` | บันทึก / ค้นหา / ลบ ความทรงจำใน `.claude/ava/memories/` แยกตามประเภท พร้อม INDEX.md เป็นสารบัญ (Ava เรียกใช้เองได้) |
 
 ---
 

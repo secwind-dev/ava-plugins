@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Added
+- skill `ava-memory` — บันทึก / ค้นหา / ลบ ความทรงจำใน `.claude/ava/memories/` (sessions / decisions / preferences / facts) พร้อม `INDEX.md` เป็นสารบัญ, Ava เรียกใช้เองได้
+- `ava-init`: สร้าง `.claude/ava/memories/INDEX.md` + โฟลเดอร์ย่อย, Startup Sequence โหลด INDEX.md, SOUL.md เพิ่มกฎเสนอบันทึกความทรงจำ
+
 ### Changed
 - `ava-init`: ลบขั้นถามข้อมูลเริ่มต้น (AskUserQuestion) และ argument ชื่อโปรเจกต์ — `/ava-init` ไม่ต้องรับ argument แล้ว
 - `ava-init`: เลิกสร้าง `.claude/ava/PROJECT.md` (ลบ template + routing row ใน templates/CLAUDE.md + บรรทัดใน templates/CHANGELOG.md)
@@ -12,6 +16,8 @@
 - CLAUDE.md (root): ลบแถว routing ไป `.claude/ava/PROJECT.md`
 
 ### Removed
+- skill `ava-awaken` + โฟลเดอร์ `.claude/ava/awaken/` (ava-init, Startup Sequence, README, DOCS)
+- `MEMORY.md` (template + routing) — แทนด้วย `.claude/ava/memories/`
 - skill `ava-hook`, `ava-explore`, `ava-docs`, `ava-commit`, `ava-deploy`, `ava-adc`, `ava-on-session`, `ava-refactor-code` พร้อม section ใน README.md / DOCS.md
 - `ava-init`: เลิกสร้างโฟลเดอร์ `.claude/ava/session/` (ใช้กับ ava-on-session เท่านั้น)
 - `ava-init`: ลบ Next Step ที่ให้พิมพ์ `ava-status` (ไม่มี skill นี้)

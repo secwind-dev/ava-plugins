@@ -1,6 +1,6 @@
 ---
 name: ava-init
-description: 'One-time project setup wizard. Usage: /ava-init. Creates CLAUDE.md, RULE.md, SOUL.md, MEMORY.md, CHANGELOG.md, and DEPLOY.md for a new project.'
+description: 'One-time project setup wizard. Usage: /ava-init. Creates CLAUDE.md, RULE.md, SOUL.md, memories/INDEX.md, CHANGELOG.md, and DEPLOY.md for a new project.'
 disable-model-invocation: true
 ---
 
@@ -39,10 +39,10 @@ disable-model-invocation: true
 ใช้ Write tool สร้างที่ `.claude/ava/SOUL.md`
 คง `[บทบาทที่ user กำหนด]` ไว้ตามเดิม — ให้ user แก้เองภายหลัง
 
-### .claude/ava/MEMORY.md
+### .claude/ava/memories/INDEX.md
 
-อ่านจาก template: `<base_dir>/templates/MEMORY.md`
-ใช้ Write tool สร้างที่ `.claude/ava/MEMORY.md` — ไม่มี placeholder ในไฟล์นี้
+อ่านจาก template: `<base_dir>/templates/memories/INDEX.md`
+ใช้ Write tool สร้างที่ `.claude/ava/memories/INDEX.md` — ไม่มี placeholder ในไฟล์นี้ (สารบัญความทรงจำ จัดการผ่าน `/ava-memory`)
 
 ### CHANGELOG.md
 
@@ -62,7 +62,7 @@ disable-model-invocation: true
 ### 2.1 — สร้างโฟลเดอร์
 
 ```bash
-mkdir -p .claude/hooks .claude/ava/awaken
+mkdir -p .claude/hooks .claude/ava/memories/sessions .claude/ava/memories/decisions .claude/ava/memories/preferences .claude/ava/memories/facts
 ```
 
 ### 2.2 — สร้าง track-action.sh
@@ -111,14 +111,14 @@ grep -qxF '.claude/hooks/last-action.tmp' .gitignore 2>/dev/null || echo '.claud
 ✅ CHANGELOG.md
 ✅ .claude/ava/RULE.md
 ✅ .claude/ava/SOUL.md
-✅ .claude/ava/MEMORY.md
+✅ .claude/ava/memories/INDEX.md
 ✅ .claude/ava/DEPLOY.md
 ✅ .claude/hooks/track-action.sh
 ✅ .claude/hooks/notify-done.sh
 ✅ .claude/settings.json
 
 📂 โฟลเดอร์ที่สร้าง:
-✅ .claude/ava/awaken/ — สำหรับ Tier 4 Awaken Knowledge (ใช้กับ /ava-awaken)
+✅ .claude/ava/memories/ — ความทรงจำแยกตามประเภท sessions / decisions / preferences / facts (ใช้กับ /ava-memory)
 
 📌 Next Steps:
 
