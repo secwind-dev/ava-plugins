@@ -20,7 +20,18 @@ fi
 IMPORT="@logics/$NAME/LOGIC.md"
 
 # ไม่มี section (AVA.md รุ่นเก่า) → เพิ่มท้ายไฟล์
-grep -q '^## 🧩 Active Logics' "$AVA" || printf '\n---\n\n## 🧩 Active Logics\n\n> วิธีทำงานเพิ่มเติมที่ owner เปิดใช้ — 1 บรรทัด = 1 logic · ลบบรรทัดเพื่อปิด · เพิ่มผ่าน `/ava-use-logic`\n> ขัดกัน: `RULE.md` ชนะเสมอ → บรรทัดบนชนะบรรทัดล่าง\n\n' >> "$AVA"
+# แก้ไข: ดึง blockquote จาก template ของ ava-init แทนข้อความฝังตายตัว — ให้ข้อความมีแหล่งเดียว
+if ! grep -q '^## 🧩 Active Logics' "$AVA"; then
+  TEMPLATE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/../../ava-init/templates/AVA.md"
+  # หา template ไม่เจอ → หยุดก่อนแตะ AVA.md
+  if [ ! -f "$TEMPLATE" ]; then
+    echo "template not found: $TEMPLATE" >&2
+    exit 1
+  fi
+  # blockquote = บรรทัด "> " ที่ติดกันใต้หัว section ใน template
+  QUOTE=$(awk '/^## 🧩 Active Logics/{s=1; next} s && /^> /{print; q=1; next} s && q{exit} s && /^## /{exit}' "$TEMPLATE")
+  printf '\n---\n\n## 🧩 Active Logics\n\n%s\n\n' "$QUOTE" >> "$AVA"
+fi
 
 if grep -qxF "$IMPORT" "$AVA"; then
   echo "IMPORT_EXISTS"
