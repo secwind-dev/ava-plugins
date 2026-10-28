@@ -69,3 +69,12 @@
 - `.claude/ava/RULE.md` ต้องโหลดทุก session ยกเว้นไม่ได้
 - `.claude/ava/knowledge/` เป็นของ owner — Ava **อ่านอย่างเดียว** ห้ามสร้าง/แก้/ลบ เจอข้อมูลที่ควรเพิ่ม/แก้ หรือขัดกับ code จริง → เสนอ owner
 - ข้อมูลใน `knowledge/` ขัดกับ `memories/` → ยึด `knowledge/` เป็นหลัก
+
+---
+
+## 🧩 Active Logics
+
+> วิธีทำงานเพิ่มเติมที่ owner เปิดใช้ — 1 บรรทัด = 1 logic · ลบบรรทัดเพื่อปิด · เพิ่มผ่าน `/ava-use-logic <name>`
+> ขัดกัน: `RULE.md` ชนะเสมอ → บรรทัดบนชนะบรรทัดล่าง · การตัดสินใจของ owner อยู่ในตาราง "ชนกับ Ava" ของแต่ละ LOGIC.md
+> คลัง logic ทั้งหมดอยู่ใน `.claude/ava/logics/` — ดูด้วย `/ava-use-logic list` (path ใน @import เป็น relative กับไฟล์นี้)
+

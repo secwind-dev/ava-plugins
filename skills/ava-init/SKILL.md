@@ -1,6 +1,6 @@
 ---
 name: ava-init
-description: 'One-time project setup wizard. Usage: /ava-init. Creates .claude/ava/AVA.md (imported from CLAUDE.md), RULE.md, SOUL.md, knowledge/INDEX.md, memories/INDEX.md, and DEPLOY.md for a new project.'
+description: 'One-time project setup wizard. Usage: /ava-init. Creates .claude/ava/AVA.md (imported from CLAUDE.md), RULE.md, SOUL.md, knowledge/INDEX.md, memories/INDEX.md, and DEPLOY.md (+ empty logics/ library) for a new project.'
 disable-model-invocation: true
 ---
 
@@ -76,7 +76,7 @@ fi
 ### 2.1 — สร้างโฟลเดอร์
 
 ```bash
-mkdir -p .claude/hooks .claude/ava/knowledge .claude/ava/memories/sessions .claude/ava/memories/decisions .claude/ava/memories/preferences .claude/ava/memories/facts
+mkdir -p .claude/hooks .claude/ava/logics .claude/ava/knowledge .claude/ava/memories/sessions .claude/ava/memories/decisions .claude/ava/memories/preferences .claude/ava/memories/facts
 ```
 
 ### 2.2 — สร้าง track-action.sh
@@ -118,7 +118,7 @@ grep -qxF '.claude/hooks/last-action.tmp' .gitignore 2>/dev/null || echo '.claud
 หลังสร้างไฟล์ครบทั้งหมดแล้ว แจ้ง user ดังนี้:
 
 ```
-✅ Setup เสร็จแล้ว! สร้างไฟล์ 8 ไฟล์ + import 1 บรรทัดใน CLAUDE.md + 2 โฟลเดอร์ + ตั้งค่า 1 config
+✅ Setup เสร็จแล้ว! สร้างไฟล์ 8 ไฟล์ + import 1 บรรทัดใน CLAUDE.md + 3 โฟลเดอร์ + ตั้งค่า 1 config
 
 📁 ไฟล์ที่สร้าง:
 ✅ CLAUDE.md — เพิ่มบรรทัด `@.claude/ava/AVA.md` (สร้างใหม่ / append / มีอยู่แล้ว)
@@ -134,6 +134,7 @@ grep -qxF '.claude/hooks/last-action.tmp' .gitignore 2>/dev/null || echo '.claud
 
 📂 โฟลเดอร์ที่สร้าง:
 ✅ .claude/ava/knowledge/ — ข้อมูลโปรเจกต์ที่ owner เขียนเอง (business rule, domain, spec) Ava อ่านอย่างเดียว
+✅ .claude/ava/logics/ — คลัง logic (ร่างด้วย /ava-connector, เปิดใช้เฉพาะบางตัวด้วย /ava-use-logic)
 ✅ .claude/ava/memories/ — ความทรงจำแยกตามประเภท sessions / decisions / preferences / facts (ใช้กับ /ava-memory)
 
 📌 Next Steps:

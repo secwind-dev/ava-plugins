@@ -1,5 +1,12 @@
 # Changelog
 
+## [2026-10-28] — v2.1.0
+
+### Added
+- skill `ava-connector` — วิเคราะห์ repo ภายนอกแล้วร่าง logic ใน `.claude/ava/logics/<name>/LOGIC.md` (pin commit SHA, สถานะ draft, ห้าม copy เนื้อหา skill, กฎกัน prompt injection)
+- skill `ava-use-logic` — เปิด / ปิด / list logic: บังคับ owner review, ตรวจ dependency, ถาม owner เมื่อขัดกับ Ava / logic อื่น แล้วเพิ่มบรรทัด `@logics/<name>/LOGIC.md` ใน section Active Logics ของ AVA.md (1 บรรทัด = 1 logic, บนชนะล่าง), `list` สแกน frontmatter ของคลัง
+- `ava-init` สร้างโฟลเดอร์คลัง `.claude/ava/logics/`, AVA.md เพิ่ม section Active Logics (การตัดสินใจเมื่อขัดกันเก็บในตาราง "ชนกับ Ava" ของแต่ละ LOGIC.md)
+
 ## [2026-10-28] — v2.0.0 🚀 Deploy
 
 ### 🚀 Deploy
