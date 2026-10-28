@@ -76,27 +76,14 @@ argument ที่รับมา: `$ARGUMENTS`
 
 เพิ่มเป็น **บรรทัดล่างสุด** ของ section (ลำดับความสำคัญต่ำสุด) — แจ้ง owner ว่าสลับลำดับบรรทัดได้ถ้าต้องการให้ชนะ logic อื่น
 
+รัน script ของ skill นี้ (`<Base directory for this skill>` คือ path ใน header ของ skill):
+
 ```bash
-IMPORT="@logics/<name>/LOGIC.md"
-AVA=.claude/ava/AVA.md
-# ไม่มี section (AVA.md รุ่นเก่า) → เพิ่มท้ายไฟล์
-grep -q '^## 🧩 Active Logics' "$AVA" || printf '\n---\n\n## 🧩 Active Logics\n\n> วิธีทำงานเพิ่มเติมที่ owner เปิดใช้ — 1 บรรทัด = 1 logic · ลบบรรทัดเพื่อปิด · เพิ่มผ่าน `/ava-use-logic`\n> ขัดกัน: `RULE.md` ชนะเสมอ → บรรทัดบนชนะบรรทัดล่าง\n\n' >> "$AVA"
-if grep -qxF "$IMPORT" "$AVA"; then echo "IMPORT_EXISTS"
-else
-  # แทรกต่อจากบรรทัด @logics/ ตัวสุดท้ายใน section (ไม่มี → ต่อจากบรรทัดสุดท้ายที่ไม่ว่าง + เว้น 1 บรรทัด ไม่ให้ติด blockquote)
-  awk -v line="$IMPORT" '
-    function flush(   i,pos){ pos=0
-      for(i=1;i<=n;i++) if(buf[i] ~ /^@logics\//) pos=i
-      if(!pos) for(i=n;i>=1;i--) if(buf[i] !~ /^[[:space:]]*$/ && buf[i] != "---"){pos=i;break}
-      for(i=1;i<=n;i++){ print buf[i]; if(i==pos){ if(buf[i] !~ /^@logics\//) print ""; print line } }
-      n=0; insec=0 }
-    /^## 🧩 Active Logics/ {insec=1; print; next}
-    insec && /^## / {flush()}
-    insec {buf[++n]=$0; next}
-    {print}
-    END{ if(insec) flush() }' "$AVA" > "$AVA.tmp" && mv "$AVA.tmp" "$AVA" && echo "IMPORT_ADDED"
-fi
+# แก้ไข: ย้าย awk ไปไว้ใน script — Claude Code แทนที่ตัวแปร positional ของ shell/awk ใน SKILL.md ด้วย argument ทำให้บรรทัดใน section หาย
+bash "<Base directory for this skill>/scripts/add-import.sh" <name>
 ```
+
+ผลลัพธ์: `IMPORT_ADDED` = เพิ่มแล้ว · `IMPORT_EXISTS` = มีอยู่แล้ว
 
 ### A6 — อัปเดต LOGIC.md
 

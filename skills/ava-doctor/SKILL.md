@@ -90,13 +90,13 @@ curl -sf "https://raw.githubusercontent.com/secwind-dev/ava-plugins/main/.claude
 LOCAL_VER="<local>"
 REMOTE_VER="<remote>"
 
-verlte() {
-  [ "$1" = "$(printf '%s\n%s' "$1" "$2" | sort -V | head -n1)" ]
-}
+# แก้ไข: เลิกใช้ function ที่รับ argument แบบ positional — Claude Code แทนที่ตัวแปร positional ใน SKILL.md ด้วย argument ของ skill
+# version ที่ต่ำกว่า = ตัวแรกหลัง sort -V
+LOWER_VER=$(printf '%s\n%s' "$LOCAL_VER" "$REMOTE_VER" | sort -V | head -n1)
 
 if [ "$LOCAL_VER" = "$REMOTE_VER" ]; then
   echo "UP_TO_DATE"
-elif verlte "$LOCAL_VER" "$REMOTE_VER"; then
+elif [ "$LOCAL_VER" = "$LOWER_VER" ]; then
   echo "OUTDATED"
 else
   echo "AHEAD"
