@@ -1,0 +1,6 @@
+{
+    "name": "ava-claude-plugins",
+    "description": "Ava Claude Plugins — ชุด skills สำหรับ setup และจัดการโปรเจกต์",
+    "version": "1.0.0",
+    "author": { "name": "SecWind" }
+}

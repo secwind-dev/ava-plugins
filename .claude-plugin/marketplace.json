@@ -1,0 +1,28 @@
+{
+  "name": "ava-plugins",
+  "owner": {
+    "name": "SecWind",
+    "email": "secwind.dev@gmail.com"
+  },
+  "metadata": {
+    "description": "Ava Claude Plugins — ชุด skills สำหรับ setup โปรเจกต์, สร้าง hooks, review code, และติดตั้ง MCP servers",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "ava-claude-plugins",
+      "source": {
+        "source": "github",
+        "repo": "secwind-dev/ava-plugins"
+      },
+      "description": "Ava Claude Plugins — ชุด skills สำหรับ setup และจัดการโปรเจกต์ด้วย Claude Code",
+      "version": "1.0.0",
+      "author": {
+        "name": "SecWind"
+      },
+      "repository": "https://github.com/secwind-dev/ava-plugins",
+      "keywords": ["claude-code", "hooks", "skills", "workflow", "mcp", "thai"],
+      "category": "productivity"
+    }
+  ]
+}
