@@ -18,12 +18,17 @@ case "$MODE" in check|fix) ;; *) echo "Usage: logic-precedence.sh check|fix [AVA
 [ -f "$AVA" ] || { echo "AVA.md not found: $AVA" >&2; exit 1; }
 [ -f "$TEMPLATE" ] || { echo "template not found: $TEMPLATE" >&2; exit 1; }
 
-# ตรวจว่าวลีเก่าอยู่ "ใน" section Active Logics หรือไม่ (นอก section ไม่นับ)
-found=$(awk -v p="$OLD_PHRASE" '
-  { sub(/\r$/, "") }
-  /^## 🧩 Active Logics/ { s=1; next }
-  s && /^## / { s=0 }
-  s && index($0, p) { print "yes"; exit }' "$AVA")
+# ตรวจว่าวลีเก่าอยู่ "ใน" section Active Logics ของไฟล์ที่ระบุหรือไม่ (นอก section ไม่นับ)
+# รับ: path ของไฟล์ · คืน: พิมพ์ "yes" ถ้าเจอ
+has_old_phrase() {
+  awk -v p="$OLD_PHRASE" '
+    { sub(/\r$/, "") }
+    /^## 🧩 Active Logics/ { s=1; next }
+    s && /^## / { s=0 }
+    s && index($0, p) { print "yes"; exit }' "$1"
+}
+
+found=$(has_old_phrase "$AVA")
 
 if [ "$MODE" = "check" ]; then
   [ "$found" = "yes" ] && echo "M6_FOUND" || echo "M6_OK"
@@ -40,6 +45,11 @@ fi
 QUOTE_FILE=$(mktemp)
 trap 'rm -f "$QUOTE_FILE" "$AVA.tmp"' EXIT
 awk '/^## 🧩 Active Logics/{s=1; next} s && /^> /{print; q=1; next} s && q{exit} s && /^## /{exit}' "$TEMPLATE" > "$QUOTE_FILE"
+# แก้ไข: template ไม่มี blockquote → หยุด (ไฟล์ว่างทำให้ awk ด้านล่างกลืน AVA.md ทั้งไฟล์จนว่าง)
+if [ ! -s "$QUOTE_FILE" ]; then
+  echo "template blockquote not found: $TEMPLATE" >&2
+  exit 1
+fi
 
 # ไฟล์เดิมใช้ CRLF ไหม — ถ้าใช่ ใส่ \r กลับตอนเขียน
 EOL=""
@@ -57,6 +67,13 @@ awk -v eol="$EOL" '
   }
   inq { inq=0; done=1 }
   { print $0 eol }' "$QUOTE_FILE" "$AVA" > "$AVA.tmp"
+
+# แก้ไข: ตรวจผลก่อนเขียนทับ — วลีเก่ายังอยู่ (อยู่นอกกลุ่ม "> " แรก) → ให้ owner แก้เอง ไม่แตะไฟล์
+if [ "$(has_old_phrase "$AVA.tmp")" = "yes" ]; then
+  echo "old precedence text is outside the first blockquote of Active Logics — edit $AVA manually" >&2
+  echo "M6_MANUAL"
+  exit 1
+fi
 
 mv "$AVA.tmp" "$AVA"
 echo "M6_FIXED"

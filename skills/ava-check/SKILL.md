@@ -133,7 +133,7 @@ printf '\n<!-- ava: โหลดกฎของ Ava — ลบบรรทัด
 bash "<Base directory for this skill>/scripts/logic-precedence.sh" fix
 ```
 
-ผลลัพธ์: `M6_FIXED` = แก้แล้ว · `M6_OK` = ไม่มีอะไรต้องแก้
+ผลลัพธ์: `M6_FIXED` = แก้แล้ว · `M6_OK` = ไม่มีอะไรต้องแก้ · `M6_MANUAL` = วลีเก่าอยู่นอก blockquote แรกของ section แก้อัตโนมัติไม่ได้ (ไฟล์ไม่ถูกแตะ) → แจ้ง user ให้ลบข้อความเรื่อง "บรรทัดบนชนะบรรทัดล่าง" ใน section `## 🧩 Active Logics` เอง แล้วรัน `/ava-check` อีกครั้ง
 
 ---
 
