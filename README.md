@@ -30,7 +30,7 @@
 |-------|--------|----------|
 | **ava-init** | `/ava-init` | One-time setup สร้างไฟล์ทั้งหมด (`.claude/ava/AVA.md` + import ใน CLAUDE.md โดยไม่เขียนทับ, RULE.md, SOUL.md, knowledge/INDEX.md, memories/INDEX.md ฯลฯ) พร้อม default hooks อัตโนมัติ |
 | **ava-review** | `/ava-review [target]` | Code review จาก git diff พร้อมวิเคราะห์ security, คะแนน quality, และแนะนำ best practices |
-| **ava-validate** | `/ava-validate [task]` | ตรวจงานสำคัญตามระดับ L1/L2/L3 แก้ checklist ได้ก่อนตรวจ L3 มีผู้ตรวจอิสระ |
+| **ava-validate** | `/ava-validate [task]` | ตรวจงานสำคัญตามระดับ L2/L3 (L1 = verify ปกติที่ Ava ทำทุกงาน) แก้ checklist ได้ก่อนตรวจ L3 มีผู้ตรวจอิสระ |
 | **ava-check** | `/ava-check` | ตรวจสอบ environment: runtime, git config, package manager, และ .env security |
 | **ava-doctor** | `/ava-doctor` | ตรวจสอบ version เทียบกับ marketplace บน GitHub แจ้งเมื่อมี version ใหม่ให้อัปเดต |
 | **ava-connector** | `/ava-connector <repo-url>` | วิเคราะห์ repo ภายนอก (plugin / MCP / workflow) แล้วร่าง logic ให้ Ava ใน `.claude/ava/logics/<name>/LOGIC.md` (draft รอ owner review) |
